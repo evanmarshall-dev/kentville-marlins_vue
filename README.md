@@ -135,6 +135,83 @@ Make sure to comment out the default font set in `app/slices/RichText/index.vue`
 >
 > [Nuxt Fonts][nuxt-fonts]
 
+### Slicemachine
+
+Enter **_slicemachine_** by typing `pnpm slicemachine`. This opens the slicemachine development environment where we can create and change data models while benefitting from versioning, previews, and auto-generated marks for us.
+
+We can create three types of **_data models_**:
+
+1. **Page types**: For pages, blog posts, and landing pages for example. Anything that will have a URL.
+2. **Custom Types**: More abstract content collections. For example, a taxonomy collection, navigation document, and settings document.
+3. **Slices**
+
+#### Custom Type
+
+Let's create a **_settings document_**.
+
+1. Click custom types in slicemachine and select create.
+2. Select **reusable** type or **single** type.
+3. Select single type since we will only have one instance of this document inside prismic.
+4. Name the document.
+5. Click create.
+
+Now we are brought to a page for settings document. There is a **main** tab and you can add, edit, and remove tabs. Tabs are a way to organize content for content writers.
+
+Within the main tab we have two zones: **_static zone_** and **_slices_**.
+
+Next, we will add some **_fields_** inside the static zone (i.e. text field or image). The fields will indicate to a content writer what to add as content.
+
+After completing the Settings Document locally, you will see a custom type directory created with an `index.json` found within a settings directory (`/customtypes/settings/index.json`). The `index.json` will contain everything we just configured within slicemachine as a **_json object_** that prismic understands.
+
+### Adding Content to Prismic Production
+
+To add all of the above local changes to prismic, we go to **_Review Changes_** and click **_Push_**.
+
+#### Page Builder
+
+First go to **_Create a New Page_** and you will se we have access to our **_settings_** page we just created. This is where we input the content for the site.
+
+After entering the content into the settings document, we will hit **save** and **publish**.
+
+Now we need to create a folder called **_layouts_** within the local app (`/app/layouts`). Within this new directory we want to create a `default.vue`. This is the default layout we want to use on every page. Default is a special keyword that indicates it will be applied on all pages of the website.
+
+To get this content to prismic we use the prismic SDK, which can be found in nuxt config file under modules (`@nuxtjs/prismic`).
+
+Within the default.vue layout we first get the prismic object (`usePrismic()`). This object is injected into nuxt app using **_auto imports_**. This allows us to get access to the prismic client to gather content.
+
+Next we add data constant as settings key and use **_async_** data method to query our content. useAsyncData allows us to query on the server or the client based on the context the app is rendered on and we use this data to render our website. There are a lot of methods to get data from the prismic client (i.e. getAllByType, or getByID).
+
+We want to get our settings document which is a single type so we use the `getSingle` method.
+
+Now within the template we can print the settings (`{{settings}}`). Now if we go back to the local app we see settings JSON data printed, which we will use to render our header and our footer.
+
+For now we will use it just to define our meta data. This is done by using `useSeoMeta()`.
+
+```vue
+<script lang="ts" setup>
+const prismic = usePrismic();
+
+const { data: settings } = await useAsyncData(() =>
+  prismic.client.getSingle("settings")
+);
+
+useSeoMeta({
+  title: settings.value?.data.site_title,
+  ogTitle: settings.value?.data.site_title,
+  description: settings.value?.data.meta_description,
+  ogDescription: settings.value?.data.meta_description,
+  ogImage: computed(() => prismic.asImageSrc(settings.value?.data.meta_image)),
+});
+</script>
+
+<template>
+  <div>
+    {{ settings }}
+    <slot />
+  </div>
+</template>
+```
+
 [prismic]: https://prismic.io
 [nuxt]: https://nuxt.com
 [evan-dev]: https://www.evanmarshall.dev
