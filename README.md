@@ -212,6 +212,91 @@ useSeoMeta({
 </template>
 ```
 
+### Site Header and Footer
+
+The header and footer are components so they are found in `/app/components/` directory. For the header just add the script section and template section. Within template just put placeholder header element for now.
+
+We fetched settings from prismic in the `default.vue` and we need to make them available to `AppHeader.vue`. We do this by assigning a **_props_** to the header. We first define a prop with a typescript type. The props is defined within the `<>`. Assign `settings` object to `Content.Settings` (settings document) from prismic. The Content imported from **_prismicio client_** is where you will find all of your prismic types. The content type we want is `SettingsDocument`.
+
+**To summarize**: We want a prop called settings and we want the content of the prop to be a settings document from prismic.
+
+Now we can go back to `default.vue` and add the AppHeader component with a settings prop containing the settings document.
+
+> [!NOTE]
+> Make sure when creating the component that you add `?` symbol after settings because when using the `useAsyncData` in the `default.vue` it can also be undefined as well as settings document.
+
+#### Build the Header
+
+Remove `{{settings}}` from default.vue so the JSON does not display on browser.
+
+Make sure the SVG folder for header goes in the `components` directory. Change the extension for logo to vue and wrap the contents within a `<template></template>`. Now we can add `<GlideLogo />` component to the header.
+
+> [!NOTE]
+> Make sure to add `aria-label="Main"` to the nav element in the header to indicate for accessibility that this is the main navigation.
+
+Go back to slice machine (`pnpm slicemachine`), click **Custom Types** then **Settings** then **Show code snippets**. The code snippets will show how you can render links for the header (Make sure to add `settings?.` to `data.navigation`).
+
+The **About**, **Schedules**, **Register Now** will show up in the navigation now as these were created in Settings on page builder (Change temoplate to a list item).
+
+```vue
+<li v-for="link in settings?.data.navigation" :key="link.key">
+  <PrismicLink :field="link" :class="link.variant" />
+</li>
+```
+
+Now we will create a link for the `GlideLogo`.
+
+```vue
+<NuxtLink to="/">
+  <GlideLogo />
+</NuxtLink>
+```
+
+Now to add mobile navigation menu. See below for code. We need to add logic for opening and closing the mobile menu (hamburger and cross icon).
+
+Add `const isOpen = ref(false)` and wrap the NuxtLink and logo in a div with display flex. Add `@click="isOpen = false"` to the NuxtLink. Then add button with `@click="isOpen = true"`. Then we add logic to the div containing the mobile menu for adding a class if `isOpen` is available translate x to 0 width and if not then translate x to full width (`:class="isOpen ? 'translate-x-0' : 'translate-x-full'"`).
+
+> [!NOTE]
+> The `will-change-transform` tailwind class provides CSS hint that this class will change and the browser will optimize transition to be as smooth as possible.
+
+Install nuxt icons to replace the open and close.
+
+Now to style the `PrismicLink` for the nav items.
+
+To style a different `link.variant` property (i.e. Link or Button), which were designed in slicemachine under `/Custom types/Settings/Navigation`, can be used to determine link or button. You can do this by making the button a dedicated component with a bunch of functionality, but in this case we will just create a class (`:class="{ buttonLink: link.variant === 'Button' }"`). Because we will use this button component in several parts of the website we will make the class (buttonLink) global in the `main.css`.
+
+```vue
+<!-- Mobile navigation. -->
+<div
+  class="md:hidden fixed inset-0 z-40 flex flex-col items-end bg-gray-950 pr-4 pt-6"
+>
+  <ul class="grid justify-items-end gap-6">
+    <li v-for="link in settings?.data.navigation" :key="link.key">
+      <PrismicLink :field="link" :class="link.variant" />
+    </li>
+  </ul>
+</div>
+```
+
+```css
+.buttonLink {
+  /* Structure styles */
+  @apply relative inline-flex h-fit w-fit rounded-full px-4 py-2;
+  /* Color styles */
+  @apply border border-sky-100/20 bg-sky-200/10 text-sky-200 outline-none ring-teal-300;
+  /* After styles (Can also do with pseudo class after)  */
+  @apply after:absolute after:inset-0 after:-z-10 after:rounded-full after:bg-teal-100 after:bg-opacity-0 after:blur-md;
+  /* Hover styles */
+  @apply transition-colors hover:border-teal-200/40 hover:text-teal-300 after:transition-all after:duration-500 after:hover:bg-opacity-15 after:animate-pulse focus:ring-2;
+}
+```
+
+#### Build the footer
+
+Copy the `AppHeader` and remove all `isOpen` code, styles, buttons, and leave nav, GlideLogo and ul. Make sure to update `aria-label` to Footer.
+
+Programmatically add a screen reader only class to the GlideLogo (`{{ settings?.data.site_title }} home page` = Kentville Marlins home page).
+
 [prismic]: https://prismic.io
 [nuxt]: https://nuxt.com
 [evan-dev]: https://www.evanmarshall.dev

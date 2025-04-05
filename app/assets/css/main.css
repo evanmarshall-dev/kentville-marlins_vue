@@ -9,3 +9,14 @@ body {
   /* Uses Tailwind. */
   @apply bg-gray-950 bg-repeat text-gray-50;
 }
+
+.buttonLink {
+  /* Structure styles */
+  @apply relative inline-flex h-fit w-fit rounded-full px-4 py-2;
+  /* Color styles */
+  @apply border border-sky-100/20 bg-sky-200/10 text-sky-200 outline-none ring-teal-300;
+  /* After styles (Can also do with pseudo class after)  */
+  @apply after:absolute after:inset-0 after:-z-10 after:rounded-full after:bg-teal-100 after:bg-opacity-0 after:blur-md;
+  /* Hover styles */
+  @apply transition-colors hover:border-teal-200/40 hover:text-teal-300 after:transition-all after:duration-500 after:hover:bg-opacity-15 after:animate-pulse focus:ring-2;
+}

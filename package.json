@@ -17,6 +17,7 @@
   "devDependencies": {
     "@nuxt/eslint": "^0.7.5",
     "@nuxt/fonts": "^0.11.0",
+    "@nuxt/icon": "^1.11.0",
     "@nuxtjs/prismic": "^4.1.0",
     "@nuxtjs/tailwindcss": "^6.13.2",
     "@slicemachine/adapter-nuxt": "^0.3.72",
