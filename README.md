@@ -297,6 +297,32 @@ Copy the `AppHeader` and remove all `isOpen` code, styles, buttons, and leave na
 
 Programmatically add a screen reader only class to the GlideLogo (`{{ settings?.data.site_title }} home page` = Kentville Marlins home page).
 
+### Adding Our Pages
+
+In Slice Machine we go to **_Page Type_** (Not Custom Type). If you look at the default page created on Prismic you will see a **title**, which is Rich Text (Unlike the meta title in the custom type settings).
+
+1. We add a new tab to the Page Type of **Page** (Right beside the Main tab) and name it **_SEO_**.
+2. Click the + symbol and add **Text** and call it **_Meta Title_**.
+3. Click + again and add **Text** and call it **_Meta Description_**.
+4. Click + again and add **Image** and call it **_Meta Image_**. Also constrain the dimensions to 2400px by 1260px.
+5. Push the saved changes in Slice Machine to Prismic by clicking **Review Changes** and clicking **Push**.
+
+Now if we go to the Prismic Page Builder and click **Homepage** we will see a tab for **_SEO_**. On the SEO tab you can add metadata.
+
+1. Click SEO tab and add in title, description, and image for the homepage.
+2. Click **Save** and **Publish**.
+
+We have a problem when we reload the page in dev that the metadata is not reflected. We need to update our **_page types_**.
+
+1. Go to `/app/pages/index.vue` (Responsible for querying our page content).
+2. Go back to Slice Machine > Page Types > Page > Click **_Page Snippet_** and grab the `useSeoMeta` snippet.
+3. Within index.vue remove `useHead` and replace with the copied `useSeoMeta`.
+4. Do the same as step 3, but in `/app/pages/[uid].vue`.
+
+Now the metadata should show on the dev site.
+
+### Prismic Slices
+
 [prismic]: https://prismic.io
 [nuxt]: https://nuxt.com
 [evan-dev]: https://www.evanmarshall.dev
