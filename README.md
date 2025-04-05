@@ -323,6 +323,27 @@ Now the metadata should show on the dev site.
 
 ### Prismic Slices
 
+Slices are the sections of the pages.
+
+You will see slices in Slice Machine. There should already be one there for **RichText** slice which was used as part of the homepage.
+
+#### Hero Section Slice
+
+1. Enter Slice Machine and click on **Slices**.
+2. Click **Create** and enter **_Hero_** for the **Slice Name**.
+3. You will then be brought to a page with variations and fields. Click on **Add a field**.
+4. Add a **Rich Text** field, add **_Heading_** for the **Label**, select just h1 for **Accept**, and unselect **Allow multiple paragraphs**.
+5. Add another **Rich Text** field, add **_Body_** for the **Label**, and select p/b/i for **Accept**.
+6. Add a **Link** field for the CTA, add **_CTAs_** for the **Label**, and check **Make this link repeatable**.
+7. Add an **Image** field and add **_Image_** for the **Label**.
+
+Usually you would review changes and publish to Prismic, but with slices you could also click **Simulate**. This opens up a visual editor for slices.
+
+> [!NOTE]
+> If working in dark mode you can fix the white background on Simulate by going to `/app/pages/slice-simulator.vue` and add a background prop to `<SliceSimulator></SliceSimulator>` component (i.e. `background="#030712"`).
+
+You can verify changes to the Slice Machine Simulator for the Hero by going to `/app/slices/Hero/index.vue` and updating the `<template></template>` section with `{{ slice }}` for example. This will display the JSON for this slice in the Simulator.
+
 [prismic]: https://prismic.io
 [nuxt]: https://nuxt.com
 [evan-dev]: https://www.evanmarshall.dev
