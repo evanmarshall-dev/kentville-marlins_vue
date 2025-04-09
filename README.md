@@ -344,6 +344,30 @@ Usually you would review changes and publish to Prismic, but with slices you cou
 
 You can verify changes to the Slice Machine Simulator for the Hero by going to `/app/slices/Hero/index.vue` and updating the `<template></template>` section with `{{ slice }}` for example. This will display the JSON for this slice in the Simulator.
 
+##### Templating Hero Slice
+
+**_JavaScript Explanation_**
+
+In `/app/slices/Hero/index.vue` we are defining our props and our slice hero component is receiving some props from the page (i.e. **slice**, **index** (array of slice from prismic which are the breakdown of sections of the page), **slices**, and **context** (arbitrary object you can paste to the SliceZone in `/app/pages/index.vue` to perform things on the slice such as storing global data)).
+
+**_Templating_**
+
+Looking at the design there is consistent padding/margin on x-axis for each slice.
+
+1. Create a new component called `Bounded.vue`.
+2. Inside the template we will render a `<Component />` from vue with the `as` prop or a `section` by default.
+3. In the scripts we will `defineProps` as string and optional (`?`).
+4. Render `<slot />` inside the `Component`.
+5. Style the `Component` as centered and fixed max width.
+6. Fix the error for "Components should always be multi-word" to eliminate conflicts. We will just bypass it this time in eslint config.
+7. Back in the `Hero` component we will replace the section to the `Bounded` component we created.
+8. Show snippets for hero slice in slice machine and copy each snippet into the `Hero` component replacing `{{ slice }}`.
+9. Remove `PrismicRichText` for the heading and leave as just `PrismicText`. Then we add `wrapper="h1"` to have this set as an h1 element.
+10. Do the same for the body text however we will use rich text later. Add `wrapper="p"`.
+11. For the link (ctas) cut the attributes from the template and put it in the PrismicLink element. We only want to repeat the component and not the wrapper. Also wrap inside a div instead of template.
+12. You can rename `v-for`, `key` and `field` to cta instead of link.
+13. Create a class for the container of the image.
+
 [prismic]: https://prismic.io
 [nuxt]: https://nuxt.com
 [evan-dev]: https://www.evanmarshall.dev

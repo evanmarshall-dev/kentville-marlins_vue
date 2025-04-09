@@ -14,12 +14,37 @@ defineProps(
 </script>
 
 <template>
-  <section
+  <Bounded
     :data-slice-type="slice.slice_type"
     :data-slice-variation="slice.variation"
   >
     <!-- Placeholder component for hero (variation: {{ slice.variation }}) Slices -->
 
-    {{ slice }}
-  </section>
+    <!-- {{ slice }} -->
+
+    <div class="text-center relative">
+      <PrismicText
+        :field="slice.primary.heading"
+        class="mx-auto max-w-3xl text-balance text-5xl font-medium"
+        wrapper="h1"
+      />
+      <PrismicText
+        :field="slice.primary.body"
+        class="mx-auto mt-6 max-w-md text-balance text-gray-300"
+        wrapper="p"
+      />
+      <div class="flex flex-wrap gap-8 justify-center mt-8">
+        <PrismicLink
+          v-for="cta in slice.primary.ctas"
+          :key="cta.key"
+          class="buttonLink"
+          :field="cta"
+        />
+      </div>
+      <div class="glassContainer mt-16 w-fit">
+        <PrismicImage :field="slice.primary.image" class="rounded-lg" />
+      </div>
+    </div>
+    <!-- Text balance wraps the text in a modern way -->
+  </Bounded>
 </template>

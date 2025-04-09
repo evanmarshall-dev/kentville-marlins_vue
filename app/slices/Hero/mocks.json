@@ -9,8 +9,10 @@
 					{
 						"type": "heading1",
 						"content": {
-							"text": "Window"
-						}
+							"text": "Kentville Marlins Swim Team",
+							"spans": []
+						},
+						"direction": "ltr"
 					}
 				]
 			},
@@ -20,8 +22,10 @@
 					{
 						"type": "paragraph",
 						"content": {
-							"text": "Est eu non exercitation quis ipsum ipsum id laboris tempor. Voluptate adipisicing enim deserunt minim tempor laborum eiusmod."
-						}
+							"text": "The Kentville Marlins Swim Team is a community club established with an objective to provide children and youths access to an affordable and accessible summer swimming program.",
+							"spans": []
+						},
+						"direction": "ltr"
 					}
 				]
 			},
@@ -30,36 +34,37 @@
 				"type": "Link",
 				"value": [
 					{
-						"key": "98d0ca59-58cd-41e9-ba64-5f89feb6bcc9",
 						"__TYPE__": "LinkContent",
+						"key": "98d0ca59-58cd-41e9-ba64-5f89feb6bcc9",
 						"value": {
 							"__TYPE__": "ExternalLink",
 							"url": "http://twitter.com",
-							"text": "declared"
+							"text": "Click Here"
 						}
 					}
 				]
 			},
 			"image": {
 				"__TYPE__": "ImageContent",
+				"provider": "imgix",
+				"url": "https://images.unsplash.com/photo-1515651513386-89be725f1571?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzc0NjN8MHwxfHNlYXJjaHwyN3x8c3dpbXxlbnwwfHx8fDE3NDQxMzgxNTd8MA&ixlib=rb-4.0.3&q=85",
+				"alt": "two person swims on opposite direction",
 				"origin": {
-					"id": "main",
-					"url": "https://images.unsplash.com/photo-1587840171670-8b850147754e",
-					"width": 4480,
-					"height": 4480
+					"id": "MNnLZ-mrq8g",
+					"url": "https://images.unsplash.com/photo-1515651513386-89be725f1571?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzc0NjN8MHwxfHNlYXJjaHwyN3x8c3dpbXxlbnwwfHx8fDE3NDQxMzgxNTd8MA&ixlib=rb-4.0.3&q=85",
+					"width": 3025,
+					"height": 2092
 				},
-				"url": "https://images.unsplash.com/photo-1587840171670-8b850147754e",
-				"width": 4480,
-				"height": 4480,
+				"width": 3025,
+				"height": 2092,
 				"edit": {
+					"background": "transparent",
 					"zoom": 1,
 					"crop": {
 						"x": 0,
 						"y": 0
-					},
-					"background": "transparent"
+					}
 				},
-				"alt": "century",
 				"thumbnails": {}
 			}
 		},
