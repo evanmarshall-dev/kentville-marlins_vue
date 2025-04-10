@@ -366,7 +366,191 @@ Looking at the design there is consistent padding/margin on x-axis for each slic
 10. Do the same for the body text however we will use rich text later. Add `wrapper="p"`.
 11. For the link (ctas) cut the attributes from the template and put it in the PrismicLink element. We only want to repeat the component and not the wrapper. Also wrap inside a div instead of template.
 12. You can rename `v-for`, `key` and `field` to cta instead of link.
-13. Create a class for the container of the image.
+13. Create a class for the container of the image (glassContainer).
+14. Add the splash of colour behind hero image:
+
+```html
+<div
+  class="absolute left-1/3 top-0 -z-10 h-2/3 w-2/3 bg-teal-600/50 blur-3xl md:blur-[120px] filter mix-blend-screen"
+/>
+<div
+  class="absolute left-0 top-1/3 -z-10 h-2/3 w-2/3 bg-sky-700/50 blur-3xl md:blur-[120px] filter mix-blend-screen"
+/>
+```
+
+**_Animate Hero Template_**
+
+First, within the hero slice we will call the `onMounted` composable.
+
+Within the `onMounted` composable we will use a **_GSAP timeline_**. First create a timeline variable containing GSAP ease and power followed by `tl.fromTo(".hero__heading", { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.4 });`. The second animates the scale from 0.5 to 1 with a duration of 1.4. As well as a timeline animation for the remaining hero sections.
+
+For the image glow we will create it outside the timeline. One point is about these animations is the `repeat: -1` means that it will repeat infinite times.
+
+```javascript
+gsap.to(".hero__glow--one", {
+  ease: "power2.inOut",
+  repeat: -1,
+  repeatDelay: 0,
+  keyframes: [
+    { top: "0%", left: "33%", duration: 0 },
+    { top: "33%", left: "33%", duration: 2 },
+    { top: "33%", left: "0%", duration: 3 },
+    { top: "0%", left: "0%", duration: 2 },
+    { top: "0%", left: "33%", duration: 3 },
+  ],
+});
+```
+
+Now we can disable animations for accessibility. We put the following code inside the `onMounted` composable:
+
+```javascript
+// For accessibility.
+const prefersReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
+
+if (prefersReducedMotion) {
+  return;
+}
+```
+
+**_Animated Grid Component_**
+
+Create a new component within the `Glide` directory called `Grid.vue`. Within the component we will first render the grid then animate it. See `/app/components/Glide/Grid.vue`.
+
+```vue
+<script lang="ts" setup>
+// Grid is 14 rows and 30 columns.
+const grid = [14, 30];
+</script>
+
+<template>
+  <svg
+    id="glideGrid"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 935 425"
+    class="absolute -left-2 -top-14 -z-10"
+    style="mask-image: linear-gradient(black, transparent)"
+  >
+    <g class="glide-grid-group">
+      <!-- Vue template for the vector path. -->
+      <!-- The below d is rendering in absolute positions and we need to render it based on the position in the grid or i and j value and a relative path. -->
+      <!-- FROM -->
+      <!-- i.e. d="M3.19355 2.95082L5 0L0 2.95082L3.93548 4L3.19355 2.95082Z" -->
+      <!-- TO -->
+      <!-- :d="`M${(j - 1) * 32 + 5},${(i - 1) * 32 + 10}l1.806,-2.951l-5,2.951l3.936,1.049l-0.742,-1.049z`" -->
+      <template v-for="i in grid[0]" :key="i">
+        <path
+          v-for="j in grid[1]"
+          :key="j"
+          fill="currentColor"
+          opacity=".2"
+          class="glide-grid-item"
+          :d="`M${(j - 1) * 32 + 5},${(i - 1) * 32 + 10}l1.806,-2.951l-5,2.951l3.936,1.049l-0.742,-1.049z`"
+        />
+      </template>
+    </g>
+  </svg>
+</template>
+```
+
+And for the animations:
+
+```javascript
+onMounted(() => {
+  // For accessibility.
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  if (prefersReducedMotion) {
+    gsap.set("#glide-grid", { opacity: 1 });
+    gsap.set(".glide-grid-item", {
+      opacity: 0.2,
+      scale: 1,
+    });
+    return;
+  }
+
+  // Starting point of animation.
+  gsap.set(".glide-grid-item", {
+    opacity: 0,
+    transformOrigin: "center",
+    color: "#fff",
+  });
+  gsap.set("#glide-grid", { opacity: 1 });
+
+  // Define the timeline.
+  const tl = gsap.timeline();
+
+  // Entrance Animation.
+  tl.to(".glide-grid-item", {
+    keyframes: [
+      { opacity: 0, duration: 0 },
+      {
+        opacity: 0.4,
+        rotation: "+=180",
+        color: "#0284c7",
+        scale: 3,
+        duration: 0.6,
+        stagger: {
+          amount: 2,
+          grid: grid,
+          from: "center",
+        },
+      },
+      {
+        opacity: 0.2,
+        rotation: "+=180",
+        color: "#fff",
+        scale: 1,
+        delay: -2,
+        duration: 0.6,
+        stagger: {
+          amount: 3,
+          grid: grid,
+          from: "center",
+        },
+      },
+    ],
+  });
+
+  // Loop Animation.
+  tl.to(".glide-grid-item", {
+    delay: 12,
+    repeat: -1,
+    repeatDelay: 12,
+    keyframes: [
+      {
+        opacity: 0.4,
+        rotation: "+=180",
+        color: "#0284c7",
+        scale: 3,
+        duration: 0.6,
+        stagger: {
+          amount: 2,
+          grid: grid,
+          from: "center",
+        },
+      },
+      {
+        opacity: 0.2,
+        rotation: "+=180",
+        color: "#fff",
+        scale: 1,
+        delay: -2,
+        duration: 0.6,
+        stagger: {
+          amount: 3,
+          grid: grid,
+          from: "center",
+        },
+      },
+    ],
+  });
+});
+```
 
 [prismic]: https://prismic.io
 [nuxt]: https://nuxt.com
