@@ -552,6 +552,16 @@ onMounted(() => {
 });
 ```
 
+##### Push Hero Slice to Prismic
+
+Add a screenshot to the slice manager for the hero slice.
+
+Then before we push to Prismic we need to do something that will allow us to add it to our **Page types**. Go to **Page types** > **Page** > **Add** > **Select existing** > Select the hero slice > **Add**.
+
+Go to slice machine and select **Review changes** > **Push**.
+
+Now if we go to Prismic (Page builder) and click on **Homepage** > **+** we will have the option of adding the hero slice.
+
 [prismic]: https://prismic.io
 [nuxt]: https://nuxt.com
 [evan-dev]: https://www.evanmarshall.dev

@@ -39,7 +39,7 @@ onMounted(() => {
   );
 
   tl.fromTo(
-    ".hero__ctas",
+    ".hero__cta",
     { scale: 1.5, opacity: 0 },
     { scale: 1, opacity: 1, duration: 1.3 },
     "-=0.8"
@@ -100,7 +100,7 @@ onMounted(() => {
       <GlideGrid />
       <PrismicText
         :field="slice.primary.heading"
-        class="hero__heading mx-auto max-w-3xl text-balance text-5xl font-medium"
+        class="hero__heading mx-auto max-w-3xl text-balance text-5xl md:text-7xl font-medium"
         wrapper="h1"
       />
       <PrismicText
@@ -108,11 +108,11 @@ onMounted(() => {
         class="hero__body mx-auto mt-6 max-w-md text-balance text-gray-300"
         wrapper="p"
       />
-      <div class="hero__ctas flex flex-wrap gap-8 justify-center mt-8">
+      <div class="flex flex-wrap gap-8 justify-center mt-8">
         <PrismicLink
           v-for="cta in slice.primary.ctas"
           :key="cta.key"
-          class="buttonLink"
+          class="hero__cta buttonLink"
           :field="cta"
         />
       </div>
