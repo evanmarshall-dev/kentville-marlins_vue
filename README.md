@@ -562,6 +562,22 @@ Go to slice machine and select **Review changes** > **Push**.
 
 Now if we go to Prismic (Page builder) and click on **Homepage** > **+** we will have the option of adding the hero slice.
 
+#### Bento Section Slice
+
+1. Enter Slice Machine and click on **Slices**.
+2. Click **Create** and enter **_Bento_** for the **Slice Name**.
+3. You will then be brought to a page with variations and fields. Click on **Add a field**.
+4. Add a **Rich Text** field, add **_Heading_** for the **Label**, select h2 and italic for **Accept**, and unselect **Allow multiple paragraphs**.
+5. Add another **Rich Text** field, add **_Body_** for the **Label**, and select p/b/i for **Accept**.
+6. Add a **Repeatable Group** field for the bento boxes, and add **_Bento_** for the **Label**.
+7. Inside the Bento field we can **Add a field**. Add **Rich Text**, add **_Title_** for the **Label**, select h3 for **Accept**, and unselect **Allow multiple paragraphs**.
+8. Inside the Bento fields we add another **Rich Text** field, add **_Body_** for the **Label**, and select p/b/i for **Accept**.
+9. Inside the Bento fields we add an **Image** field, and add **_Image_** for the **Label**.
+
+Now we need a way to specify if a Bento box is narrow or wide. This can be done by adding a new field called **Boolean** within the Bento box fields. Within the Boolean add **_Is Wide?_** for the **Label**.
+
+##### Templating Bento Box Slice
+
 [prismic]: https://prismic.io
 [nuxt]: https://nuxt.com
 [evan-dev]: https://www.evanmarshall.dev
