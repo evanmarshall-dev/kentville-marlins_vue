@@ -9,8 +9,16 @@
 					{
 						"type": "heading2",
 						"content": {
-							"text": "Harbor"
-						}
+							"text": "Upcoming Events.",
+							"spans": [
+								{
+									"type": "em",
+									"start": 9,
+									"end": 15
+								}
+							]
+						},
+						"direction": "ltr"
 					}
 				]
 			},

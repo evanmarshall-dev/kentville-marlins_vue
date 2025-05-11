@@ -578,6 +578,31 @@ Now we need a way to specify if a Bento box is narrow or wide. This can be done 
 
 ##### Templating Bento Box Slice
 
+We first open up the **Simulator** for the Bento slice. It will have placeholder content for the slice we just created in Slice Machine.
+
+First we will select **Show code snippets?** in slice machine to add into the local template in `/app/slices/Bento/index.vue`.
+
+1. Copy and paste each snippet inside the `<template><section>...here...</section></template>`. For the Bento items make sure you replace `{{ item }}` inside the Bento code snippet with each Bento field item (All but the boolean).
+2. Add a `:key` to the template `slice.primary.bento` (`:key="item.title"`).
+3. Change the section to our `Bounded` component.
+4. Instead of using italics in the heading we will add a **:components prop** to the `/Bento/index.vue`.
+
+> [!NOTE]
+> Components prop is powerful because it allows you to target any kind of node we have inside our rich text field and to render it differently using a vue component.
+
+**_GlideText Component_**
+
+1. Create a new folder i n components called `RichText` and within it have a file called `GlideText.vue`.
+2. Remove script and render emphasis element within the `<template></template>`.
+3. Add `RichTextGlideText` to the :components="{ em: }" in the `/Bento/index.vue` file.
+4. Now the emphasis/italics styles will render the text as blue which was assigned in the `GlideText.vue`.
+
+**_Heading 2 Component_**
+
+1. Create `Heading2.vue` component in the same folder as `GlideText.vue` and remove all but the template.
+2. Convert the `div` within the template to an `h2`.
+3. Then add `heading2: RichTextHeading2` to the `:components` of the heading.
+
 [prismic]: https://prismic.io
 [nuxt]: https://nuxt.com
 [evan-dev]: https://www.evanmarshall.dev
